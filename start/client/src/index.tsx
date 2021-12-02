@@ -14,6 +14,16 @@
     cartItems: [ID!]! 
   }
 `;
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+function IsLoggedIn() {
+  const { data } = useQuery(IS_LOGGED_IN);
+  return data.isLoggedIn ? <Pages /> : <Login />;
+}
+
   // Initialize ApolloClient
   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     cache,
@@ -25,7 +35,6 @@
   });
   injectStyles();
   
-  // Pass the ApolloClient instance to the ApolloProvider component
   ReactDOM.render(
     <ApolloProvider client={client}>
       <IsLoggedIn />
@@ -33,17 +42,7 @@
     document.getElementById('root')
   );
 
-  const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
-
-function IsLoggedIn() {
-  const { data } = useQuery(IS_LOGGED_IN);
-  return data.isLoggedIn ? <Pages /> : <Login/>;
-}
-
+  
 
   
   
